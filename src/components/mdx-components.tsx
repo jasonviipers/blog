@@ -1,14 +1,8 @@
-import React, { ComponentPropsWithoutRef, ReactNode } from 'react';
+import React, { ComponentPropsWithoutRef } from 'react';
 import type { MDXComponents } from "mdx/types"
 import { CodeBlock } from './code-block';
 // import { ContentGate } from "./access-control/content-gate"
 
-type HeadingProps = ComponentPropsWithoutRef<'h1'>;
-type ParagraphProps = ComponentPropsWithoutRef<'p'>;
-type ListProps = ComponentPropsWithoutRef<'ul'>;
-type ListItemProps = ComponentPropsWithoutRef<'li'>;
-type AnchorProps = ComponentPropsWithoutRef<'a'>;
-type BlockquoteProps = ComponentPropsWithoutRef<'blockquote'>;
 type PreProps = ComponentPropsWithoutRef<'pre'>;
 
 export const mdxComponents: MDXComponents = {
@@ -50,13 +44,13 @@ export const mdxComponents: MDXComponents = {
         }
         return <code className={className}>{children}</code>
     },
-    pre: ({ children, className, ...props }: PreProps) => {
-        const getTextContent = (node: React.ReactNode): string => {
+    pre: ({ children, className, ...props }) => {
+        const getTextContent = (node: any): string => {
             if (typeof node === "string") return node
             if (typeof node === "number") return node.toString()
             if (Array.isArray(node)) return node.map(getTextContent).join("")
-            if (node && typeof node === "object" && children) {
-                return getTextContent(children)
+            if (node && typeof node === "object" && node.props) {
+                return getTextContent(node.props.children)
             }
             return ""
         }
@@ -68,5 +62,5 @@ export const mdxComponents: MDXComponents = {
                 {children}
             </CodeBlock>
         )
-    }
+    },
 };

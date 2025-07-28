@@ -55,10 +55,7 @@ export function BlogCard({ post, index, locale }: BlogCardProps) {
                         {post.tags && (
                             <div className="flex gap-2">
                                 {post.tags.slice(0, 2).map((tag) => (
-                                    // <span key={tag} className="px-2 py-1 bg-purple-600/10 text-purple-600 text-xs rounded-full">
-                                    //     {tag}
-                                    // </span>
-                                    <Badge key={tag} className="bg-purple-600/10 text-purple-600 text-xs rounded-full">
+                                    <Badge key={tag} variant="secondary" className="px-2 py-1 text-xs rounded-md">
                                         {tag}
                                     </Badge>
                                 ))}
