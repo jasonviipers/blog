@@ -4,9 +4,12 @@ import { Noto_Serif_SC, Inter, Noto_Sans_Arabic, Noto_Sans_JP, Noto_Sans_SC } fr
 import { ThemeProvider } from "@/components/theme-provider";
 import { defaultLocale, locales, rtlLocales } from "@/lib/i18n/config";
 import { notFound } from "next/navigation";
-import { getDirection, validateLocale } from "@/lib/utils";
+import { cn, getDirection, validateLocale } from "@/lib/utils";
 import { translations } from "@/lib/i18n/translations";
 import { I18nProvider } from "@/lib/i18n/provider";
+import { SubscriptionProvider } from "@/hooks/subscription-provider";
+import { Navigation } from "@/components/navigation";
+import { LocaleDetector } from "@/components/i18n/locale-detector";
 
 const notoSerifSC = Noto_Serif_SC({
   subsets: ["latin"],
@@ -109,18 +112,21 @@ export default async function RootLayout({
 
   return (
     <html lang={validLocale} dir={direction} className={fontVariables} suppressHydrationWarning>
-      <body
-        className={`min-h-screen antialiased transition-colors duration-300 ${isRTL ? "font-arabic" : "font-sans"}`}
-      >
+      <body className={cn(isRTL ? "font-arabic" : "font-sans")} >
         <I18nProvider locale={validLocale}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="light"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
-          </ThemeProvider>
+          <SubscriptionProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <div className="grain-overlay" />
+              <Navigation />
+              <main className="relative">{children}</main>
+              <LocaleDetector />
+            </ThemeProvider>
+          </SubscriptionProvider>
         </I18nProvider>
       </body>
     </html>

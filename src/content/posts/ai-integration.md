@@ -24,7 +24,7 @@ MCP is a standardized way for AI models to interact with external tools and serv
 
 The chat system uses React Context for state management:
 
-\`\`\`tsx
+```tsx
 interface ChatContextType {
   messages: Message[]
   isOpen: boolean
@@ -42,13 +42,13 @@ export function ChatProvider({ children }: ChatProviderProps) {
 
   // Implementation details...
 }
-\`\`\`
+```
 
 ### 2. MCP Server Configuration
 
 Define available tools and servers:
 
-\`\`\`typescript
+```typescript
 const MCP_SERVERS = {
   blog: {
     name: "blog-server",
@@ -61,13 +61,13 @@ const MCP_SERVERS = {
     tools: ["send_email", "schedule_meeting", "get_contact_info"]
   }
 }
-\`\`\`
+```
 
 ### 3. AI Integration with Vercel AI SDK
 
 Use the AI SDK for seamless model integration:
 
-\`\`\`typescript
+```typescript
 import { generateText } from "ai"
 import { openai } from "@ai-sdk/openai"
 
@@ -80,7 +80,7 @@ const { text } = await generateText({
   })),
   maxTokens: 500,
 })
-\`\`\`
+```
 
 ## Key Features
 
@@ -114,12 +114,12 @@ The AI maintains context about:
 
 The chat interface follows the blog's zen aesthetic:
 
-\`\`\`tsx
+```tsx
 // Clean, minimal design
 <div className="w-full max-w-md h-[600px] bg-paper dark:bg-ink border border-ink/10 dark:border-paper/10 rounded-lg shadow-2xl">
   {/* Chat content */}
 </div>
-\`\`\`
+```
 
 ### Keyboard Shortcuts
 

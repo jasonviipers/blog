@@ -3,6 +3,9 @@ import { getAllPosts, getPostBySlug } from "@/lib/posts"
 import { notFound } from "next/navigation"
 import { compileMDXContent } from "@/lib/mdx"
 import { formatDateString } from "@/lib/utils"
+import { ContentGate } from "@/components/access-control/content-gate"
+import { Badge } from "@/components/ui/badge"
+import { DownloadGate } from "@/components/access-control/download-gate"
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -67,9 +70,9 @@ export default async function BlogPost({ params }: Props) {
             {post.tags && (
               <div className="flex gap-2">
                 {post.tags.map((tag) => (
-                  <span key={tag} className="px-3 py-1 bg-accent/10 text-accent text-xs rounded-full">
+                  <Badge key={tag} variant="secondary" className="px-3 py-1 text-xs rounded-full">
                     {tag}
-                  </span>
+                  </Badge>
                 ))}
               </div>
             )}
@@ -85,10 +88,44 @@ export default async function BlogPost({ params }: Props) {
             )}
           </div>
           {post.description && (
-            <p className="text-lg text-ink-light dark:text-paper/70 font-sans leading-relaxed">{post.description}</p>
+            <p className="text-lg font-sans leading-relaxed">{post.description}</p>
           )}
         </header>
+        <div className="prose prose-zen max-w-none">
+          <ContentGate isPremium={isPremium} isPro={isPro}>
+            {content}
+          </ContentGate>
+        </div>
       </div>
+      {(isPro || isPremium) && (
+        <div className="mt-12 space-y-4">
+          <h3 className="font-serif text-xl text-ink dark:text-paper mb-4">Downloads & Resources</h3>
+
+          <DownloadGate
+            fileName="source-code.zip"
+            fileSize="2.3 MB"
+            requiredTier={isPremium ? "premium" : "pro"}
+            downloadUrl="/downloads/source-code.zip"
+          />
+
+          <DownloadGate
+            fileName="project-templates.zip"
+            fileSize="1.8 MB"
+            requiredTier={isPremium ? "premium" : "pro"}
+            downloadUrl="/downloads/templates.zip"
+          />
+
+          {isPremium && (
+            <DownloadGate
+              fileName="exclusive-video-content.mp4"
+              fileSize="156 MB"
+              requiredTier="premium"
+              downloadUrl="/downloads/video-content.mp4"
+            />
+          )}
+        </div>
+      )}
+
     </article>
   )
 }
