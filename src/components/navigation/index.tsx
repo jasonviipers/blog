@@ -153,10 +153,7 @@ export function Navigation() {
                             </button>
 
                             {/* Language Switcher */}
-                            <LanguageSwitcher/>
-                            {/* <button className="p-2 text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg transition-all duration-200 hidden sm:flex">
-                                <Globe className="w-4 h-4" />
-                            </button> */}
+                            <LanguageSwitcher />
 
                             {/* Auth Button / User Menu */}
                             {user ? (
